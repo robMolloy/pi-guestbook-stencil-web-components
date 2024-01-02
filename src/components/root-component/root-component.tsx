@@ -79,8 +79,6 @@ export class RootComponent {
     return (
       <div>
         this.screenStatus: {this.screenStatus}
-        <br />
-        <br />
         {this.screenStatus === 'init_screen' && <init-screen />}
         {this.screenStatus === 'edit_settings_screen' && <edit-settings-screen />}
         {this.screenStatus === 'start_guestbook_screen' && !this.streamDataIsReady && <loading-guestbook-screen />}

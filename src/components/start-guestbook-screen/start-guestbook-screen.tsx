@@ -19,8 +19,8 @@ export class StartGuestbookScreen {
   render() {
     return (
       <div>
-        <h1>start_guestbook_screen</h1>
-        <h1>Tap anywhere for the countdown to begin</h1>
+        <global-h1>Tap anywhere for the countdown to begin</global-h1>
+
         <br />
         <br />
         <div style={{ height: '37vh', position: 'relative' }}>

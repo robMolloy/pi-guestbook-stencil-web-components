@@ -8,6 +8,8 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface EditSettingsScreen {
     }
+    interface GlobalH1 {
+    }
     interface InitScreen {
     }
     interface LoadingGuestbookScreen {
@@ -44,6 +46,12 @@ declare global {
     var HTMLEditSettingsScreenElement: {
         prototype: HTMLEditSettingsScreenElement;
         new (): HTMLEditSettingsScreenElement;
+    };
+    interface HTMLGlobalH1Element extends Components.GlobalH1, HTMLStencilElement {
+    }
+    var HTMLGlobalH1Element: {
+        prototype: HTMLGlobalH1Element;
+        new (): HTMLGlobalH1Element;
     };
     interface HTMLInitScreenElementEventMap {
         "clickStartGuestbookCycleButton": any;
@@ -83,6 +91,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "edit-settings-screen": HTMLEditSettingsScreenElement;
+        "global-h1": HTMLGlobalH1Element;
         "init-screen": HTMLInitScreenElement;
         "loading-guestbook-screen": HTMLLoadingGuestbookScreenElement;
         "root-component": HTMLRootComponentElement;
@@ -92,6 +101,8 @@ declare global {
 declare namespace LocalJSX {
     interface EditSettingsScreen {
         "onClickStartGuestbookCycleButton"?: (event: EditSettingsScreenCustomEvent<any>) => void;
+    }
+    interface GlobalH1 {
     }
     interface InitScreen {
         "onClickInitScreenEditSettingsButton"?: (event: InitScreenCustomEvent<any>) => void;
@@ -107,6 +118,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "edit-settings-screen": EditSettingsScreen;
+        "global-h1": GlobalH1;
         "init-screen": InitScreen;
         "loading-guestbook-screen": LoadingGuestbookScreen;
         "root-component": RootComponent;
@@ -118,6 +130,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "edit-settings-screen": LocalJSX.EditSettingsScreen & JSXBase.HTMLAttributes<HTMLEditSettingsScreenElement>;
+            "global-h1": LocalJSX.GlobalH1 & JSXBase.HTMLAttributes<HTMLGlobalH1Element>;
             "init-screen": LocalJSX.InitScreen & JSXBase.HTMLAttributes<HTMLInitScreenElement>;
             "loading-guestbook-screen": LocalJSX.LoadingGuestbookScreen & JSXBase.HTMLAttributes<HTMLLoadingGuestbookScreenElement>;
             "root-component": LocalJSX.RootComponent & JSXBase.HTMLAttributes<HTMLRootComponentElement>;
