@@ -6,7 +6,11 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
+    interface InitScreen {
+    }
+    interface InternalComponent {
+    }
+    interface InternalComponent2 {
         /**
           * The first name
          */
@@ -20,20 +24,47 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface RootComponent {
+    }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLInitScreenElement extends Components.InitScreen, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLInitScreenElement: {
+        prototype: HTMLInitScreenElement;
+        new (): HTMLInitScreenElement;
+    };
+    interface HTMLInternalComponentElement extends Components.InternalComponent, HTMLStencilElement {
+    }
+    var HTMLInternalComponentElement: {
+        prototype: HTMLInternalComponentElement;
+        new (): HTMLInternalComponentElement;
+    };
+    interface HTMLInternalComponent2Element extends Components.InternalComponent2, HTMLStencilElement {
+    }
+    var HTMLInternalComponent2Element: {
+        prototype: HTMLInternalComponent2Element;
+        new (): HTMLInternalComponent2Element;
+    };
+    interface HTMLRootComponentElement extends Components.RootComponent, HTMLStencilElement {
+    }
+    var HTMLRootComponentElement: {
+        prototype: HTMLRootComponentElement;
+        new (): HTMLRootComponentElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "init-screen": HTMLInitScreenElement;
+        "internal-component": HTMLInternalComponentElement;
+        "internal-component2": HTMLInternalComponent2Element;
+        "root-component": HTMLRootComponentElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
+    interface InitScreen {
+    }
+    interface InternalComponent {
+    }
+    interface InternalComponent2 {
         /**
           * The first name
          */
@@ -47,15 +78,23 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface RootComponent {
+    }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "init-screen": InitScreen;
+        "internal-component": InternalComponent;
+        "internal-component2": InternalComponent2;
+        "root-component": RootComponent;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "init-screen": LocalJSX.InitScreen & JSXBase.HTMLAttributes<HTMLInitScreenElement>;
+            "internal-component": LocalJSX.InternalComponent & JSXBase.HTMLAttributes<HTMLInternalComponentElement>;
+            "internal-component2": LocalJSX.InternalComponent2 & JSXBase.HTMLAttributes<HTMLInternalComponent2Element>;
+            "root-component": LocalJSX.RootComponent & JSXBase.HTMLAttributes<HTMLRootComponentElement>;
         }
     }
 }

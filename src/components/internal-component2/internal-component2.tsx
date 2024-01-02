@@ -1,12 +1,10 @@
 import { Component, Prop, h } from '@stencil/core';
-import { format } from '../../utils/utils';
 
 @Component({
-  tag: 'my-component',
-  styleUrl: 'my-component.css',
+  tag: 'internal-component2',
   shadow: true,
 })
-export class MyComponent {
+export class InternalComponent2 {
   /**
    * The first name
    */
@@ -22,11 +20,12 @@ export class MyComponent {
    */
   @Prop() last: string;
 
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
-  }
-
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <div>
+        <div>hello here is thhe second</div>
+        <button>click to show the next one</button>
+      </div>
+    );
   }
 }

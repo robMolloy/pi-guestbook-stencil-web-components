@@ -2,6 +2,7 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
   namespace: 'my-first-stencil-comp',
+  globalStyle: 'src/styles/daisyUi.css',
   outputTargets: [
     {
       type: 'dist',
@@ -19,6 +20,6 @@ export const config: Config = {
     },
   ],
   testing: {
-    browserHeadless: "new",
+    browserHeadless: 'new',
   },
 };
