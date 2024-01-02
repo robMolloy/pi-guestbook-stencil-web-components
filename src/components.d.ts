@@ -6,45 +6,68 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface EditSettingsScreen {
+    }
     interface InitScreen {
     }
-    interface InternalComponent {
-    }
-    interface InternalComponent2 {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+    interface LoadingGuestbookScreen {
     }
     interface RootComponent {
     }
+    interface StartGuestbookScreen {
+        "height": number;
+        "width": number;
+    }
+}
+export interface EditSettingsScreenCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEditSettingsScreenElement;
+}
+export interface InitScreenCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLInitScreenElement;
 }
 declare global {
+    interface HTMLEditSettingsScreenElementEventMap {
+        "clickStartGuestbookCycleButton": any;
+    }
+    interface HTMLEditSettingsScreenElement extends Components.EditSettingsScreen, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEditSettingsScreenElementEventMap>(type: K, listener: (this: HTMLEditSettingsScreenElement, ev: EditSettingsScreenCustomEvent<HTMLEditSettingsScreenElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEditSettingsScreenElementEventMap>(type: K, listener: (this: HTMLEditSettingsScreenElement, ev: EditSettingsScreenCustomEvent<HTMLEditSettingsScreenElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEditSettingsScreenElement: {
+        prototype: HTMLEditSettingsScreenElement;
+        new (): HTMLEditSettingsScreenElement;
+    };
+    interface HTMLInitScreenElementEventMap {
+        "clickStartGuestbookCycleButton": any;
+        "clickInitScreenEditSettingsButton": any;
+    }
     interface HTMLInitScreenElement extends Components.InitScreen, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLInitScreenElementEventMap>(type: K, listener: (this: HTMLInitScreenElement, ev: InitScreenCustomEvent<HTMLInitScreenElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLInitScreenElementEventMap>(type: K, listener: (this: HTMLInitScreenElement, ev: InitScreenCustomEvent<HTMLInitScreenElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLInitScreenElement: {
         prototype: HTMLInitScreenElement;
         new (): HTMLInitScreenElement;
     };
-    interface HTMLInternalComponentElement extends Components.InternalComponent, HTMLStencilElement {
+    interface HTMLLoadingGuestbookScreenElement extends Components.LoadingGuestbookScreen, HTMLStencilElement {
     }
-    var HTMLInternalComponentElement: {
-        prototype: HTMLInternalComponentElement;
-        new (): HTMLInternalComponentElement;
-    };
-    interface HTMLInternalComponent2Element extends Components.InternalComponent2, HTMLStencilElement {
-    }
-    var HTMLInternalComponent2Element: {
-        prototype: HTMLInternalComponent2Element;
-        new (): HTMLInternalComponent2Element;
+    var HTMLLoadingGuestbookScreenElement: {
+        prototype: HTMLLoadingGuestbookScreenElement;
+        new (): HTMLLoadingGuestbookScreenElement;
     };
     interface HTMLRootComponentElement extends Components.RootComponent, HTMLStencilElement {
     }
@@ -52,49 +75,53 @@ declare global {
         prototype: HTMLRootComponentElement;
         new (): HTMLRootComponentElement;
     };
+    interface HTMLStartGuestbookScreenElement extends Components.StartGuestbookScreen, HTMLStencilElement {
+    }
+    var HTMLStartGuestbookScreenElement: {
+        prototype: HTMLStartGuestbookScreenElement;
+        new (): HTMLStartGuestbookScreenElement;
+    };
     interface HTMLElementTagNameMap {
+        "edit-settings-screen": HTMLEditSettingsScreenElement;
         "init-screen": HTMLInitScreenElement;
-        "internal-component": HTMLInternalComponentElement;
-        "internal-component2": HTMLInternalComponent2Element;
+        "loading-guestbook-screen": HTMLLoadingGuestbookScreenElement;
         "root-component": HTMLRootComponentElement;
+        "start-guestbook-screen": HTMLStartGuestbookScreenElement;
     }
 }
 declare namespace LocalJSX {
+    interface EditSettingsScreen {
+        "onClickStartGuestbookCycleButton"?: (event: EditSettingsScreenCustomEvent<any>) => void;
+    }
     interface InitScreen {
+        "onClickInitScreenEditSettingsButton"?: (event: InitScreenCustomEvent<any>) => void;
+        "onClickStartGuestbookCycleButton"?: (event: InitScreenCustomEvent<any>) => void;
     }
-    interface InternalComponent {
-    }
-    interface InternalComponent2 {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+    interface LoadingGuestbookScreen {
     }
     interface RootComponent {
     }
+    interface StartGuestbookScreen {
+        "height"?: number;
+        "width"?: number;
+    }
     interface IntrinsicElements {
+        "edit-settings-screen": EditSettingsScreen;
         "init-screen": InitScreen;
-        "internal-component": InternalComponent;
-        "internal-component2": InternalComponent2;
+        "loading-guestbook-screen": LoadingGuestbookScreen;
         "root-component": RootComponent;
+        "start-guestbook-screen": StartGuestbookScreen;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "edit-settings-screen": LocalJSX.EditSettingsScreen & JSXBase.HTMLAttributes<HTMLEditSettingsScreenElement>;
             "init-screen": LocalJSX.InitScreen & JSXBase.HTMLAttributes<HTMLInitScreenElement>;
-            "internal-component": LocalJSX.InternalComponent & JSXBase.HTMLAttributes<HTMLInternalComponentElement>;
-            "internal-component2": LocalJSX.InternalComponent2 & JSXBase.HTMLAttributes<HTMLInternalComponent2Element>;
+            "loading-guestbook-screen": LocalJSX.LoadingGuestbookScreen & JSXBase.HTMLAttributes<HTMLLoadingGuestbookScreenElement>;
             "root-component": LocalJSX.RootComponent & JSXBase.HTMLAttributes<HTMLRootComponentElement>;
+            "start-guestbook-screen": LocalJSX.StartGuestbookScreen & JSXBase.HTMLAttributes<HTMLStartGuestbookScreenElement>;
         }
     }
 }

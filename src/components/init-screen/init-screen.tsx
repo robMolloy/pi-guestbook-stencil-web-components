@@ -1,4 +1,4 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, Event, EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'init-screen',
@@ -6,15 +6,26 @@ import { Component, h } from '@stencil/core';
   shadow: true,
 })
 export class InitScreen {
+  @Event()
+  clickStartGuestbookCycleButton: EventEmitter;
+
+  @Event()
+  clickInitScreenEditSettingsButton: EventEmitter;
+
   render() {
     return (
       <div>
         <h1>Do you want to first change the settings?</h1>
 
-        <div class="p-4">
-          <button class="btn btn-primary">primary</button>
-          <button class="btn btn-secondary">secondary</button>
-          <button class="btn btn-accent">accent</button>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button class="btn btn-primary" onClick={() => this.clickStartGuestbookCycleButton.emit()}>
+              Start
+            </button>
+            <button class="btn btn-accent" onClick={() => this.clickInitScreenEditSettingsButton.emit()}>
+              Edit Settings
+            </button>
+          </div>
         </div>
       </div>
     );
