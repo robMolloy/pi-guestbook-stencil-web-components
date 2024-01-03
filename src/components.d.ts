@@ -14,6 +14,8 @@ export namespace Components {
     }
     interface GlobalH1 {
     }
+    interface GlobalH2 {
+    }
     interface InitScreen {
     }
     interface LoadingGuestbookScreen {
@@ -43,6 +45,7 @@ export interface StartGuestbookScreenCustomEvent<T> extends CustomEvent<T> {
 }
 declare global {
     interface HTMLCaptureCountdownScreenElementEventMap {
+        "clickStartGuestbookCycleButton": any;
         "startCaptureCountdown": any;
     }
     interface HTMLCaptureCountdownScreenElement extends Components.CaptureCountdownScreen, HTMLStencilElement {
@@ -81,6 +84,12 @@ declare global {
     var HTMLGlobalH1Element: {
         prototype: HTMLGlobalH1Element;
         new (): HTMLGlobalH1Element;
+    };
+    interface HTMLGlobalH2Element extends Components.GlobalH2, HTMLStencilElement {
+    }
+    var HTMLGlobalH2Element: {
+        prototype: HTMLGlobalH2Element;
+        new (): HTMLGlobalH2Element;
     };
     interface HTMLInitScreenElementEventMap {
         "clickStartGuestbookCycleButton": any;
@@ -133,6 +142,7 @@ declare global {
         "capture-countdown-screen": HTMLCaptureCountdownScreenElement;
         "edit-settings-screen": HTMLEditSettingsScreenElement;
         "global-h1": HTMLGlobalH1Element;
+        "global-h2": HTMLGlobalH2Element;
         "init-screen": HTMLInitScreenElement;
         "loading-guestbook-screen": HTMLLoadingGuestbookScreenElement;
         "root-component": HTMLRootComponentElement;
@@ -142,6 +152,7 @@ declare global {
 declare namespace LocalJSX {
     interface CaptureCountdownScreen {
         "height"?: number;
+        "onClickStartGuestbookCycleButton"?: (event: CaptureCountdownScreenCustomEvent<any>) => void;
         "onStartCaptureCountdown"?: (event: CaptureCountdownScreenCustomEvent<any>) => void;
         "width"?: number;
     }
@@ -149,6 +160,8 @@ declare namespace LocalJSX {
         "onClickStartGuestbookCycleButton"?: (event: EditSettingsScreenCustomEvent<any>) => void;
     }
     interface GlobalH1 {
+    }
+    interface GlobalH2 {
     }
     interface InitScreen {
         "onClickInitScreenEditSettingsButton"?: (event: InitScreenCustomEvent<any>) => void;
@@ -167,6 +180,7 @@ declare namespace LocalJSX {
         "capture-countdown-screen": CaptureCountdownScreen;
         "edit-settings-screen": EditSettingsScreen;
         "global-h1": GlobalH1;
+        "global-h2": GlobalH2;
         "init-screen": InitScreen;
         "loading-guestbook-screen": LoadingGuestbookScreen;
         "root-component": RootComponent;
@@ -180,6 +194,7 @@ declare module "@stencil/core" {
             "capture-countdown-screen": LocalJSX.CaptureCountdownScreen & JSXBase.HTMLAttributes<HTMLCaptureCountdownScreenElement>;
             "edit-settings-screen": LocalJSX.EditSettingsScreen & JSXBase.HTMLAttributes<HTMLEditSettingsScreenElement>;
             "global-h1": LocalJSX.GlobalH1 & JSXBase.HTMLAttributes<HTMLGlobalH1Element>;
+            "global-h2": LocalJSX.GlobalH2 & JSXBase.HTMLAttributes<HTMLGlobalH2Element>;
             "init-screen": LocalJSX.InitScreen & JSXBase.HTMLAttributes<HTMLInitScreenElement>;
             "loading-guestbook-screen": LocalJSX.LoadingGuestbookScreen & JSXBase.HTMLAttributes<HTMLLoadingGuestbookScreenElement>;
             "root-component": LocalJSX.RootComponent & JSXBase.HTMLAttributes<HTMLRootComponentElement>;
