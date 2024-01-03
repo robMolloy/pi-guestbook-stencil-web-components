@@ -20,6 +20,11 @@ export namespace Components {
     }
     interface LoadingGuestbookScreen {
     }
+    interface PrintPhotoFailScreen {
+        "error": string | undefined;
+    }
+    interface PrintPhotoSuccessScreen {
+    }
     interface RootComponent {
     }
     interface StartGuestbookScreen {
@@ -39,13 +44,23 @@ export interface InitScreenCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLInitScreenElement;
 }
+export interface PrintPhotoFailScreenCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPrintPhotoFailScreenElement;
+}
+export interface PrintPhotoSuccessScreenCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPrintPhotoSuccessScreenElement;
+}
 export interface StartGuestbookScreenCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLStartGuestbookScreenElement;
 }
 declare global {
     interface HTMLCaptureCountdownScreenElementEventMap {
-        "clickStartGuestbookCycleButton": any;
+        "goToStartGuestbookScreen": any;
+        "goToPrintPhotoSuccessScreen": any;
+        "goToPrintPhotoFailScreen": string;
         "startCaptureCountdown": any;
     }
     interface HTMLCaptureCountdownScreenElement extends Components.CaptureCountdownScreen, HTMLStencilElement {
@@ -63,7 +78,7 @@ declare global {
         new (): HTMLCaptureCountdownScreenElement;
     };
     interface HTMLEditSettingsScreenElementEventMap {
-        "clickStartGuestbookCycleButton": any;
+        "goToStartGuestbookScreen": any;
     }
     interface HTMLEditSettingsScreenElement extends Components.EditSettingsScreen, HTMLStencilElement {
         addEventListener<K extends keyof HTMLEditSettingsScreenElementEventMap>(type: K, listener: (this: HTMLEditSettingsScreenElement, ev: EditSettingsScreenCustomEvent<HTMLEditSettingsScreenElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -92,7 +107,7 @@ declare global {
         new (): HTMLGlobalH2Element;
     };
     interface HTMLInitScreenElementEventMap {
-        "clickStartGuestbookCycleButton": any;
+        "goToStartGuestbookScreen": any;
         "clickInitScreenEditSettingsButton": any;
     }
     interface HTMLInitScreenElement extends Components.InitScreen, HTMLStencilElement {
@@ -114,6 +129,40 @@ declare global {
     var HTMLLoadingGuestbookScreenElement: {
         prototype: HTMLLoadingGuestbookScreenElement;
         new (): HTMLLoadingGuestbookScreenElement;
+    };
+    interface HTMLPrintPhotoFailScreenElementEventMap {
+        "goToStartGuestbookScreen": any;
+    }
+    interface HTMLPrintPhotoFailScreenElement extends Components.PrintPhotoFailScreen, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPrintPhotoFailScreenElementEventMap>(type: K, listener: (this: HTMLPrintPhotoFailScreenElement, ev: PrintPhotoFailScreenCustomEvent<HTMLPrintPhotoFailScreenElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPrintPhotoFailScreenElementEventMap>(type: K, listener: (this: HTMLPrintPhotoFailScreenElement, ev: PrintPhotoFailScreenCustomEvent<HTMLPrintPhotoFailScreenElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPrintPhotoFailScreenElement: {
+        prototype: HTMLPrintPhotoFailScreenElement;
+        new (): HTMLPrintPhotoFailScreenElement;
+    };
+    interface HTMLPrintPhotoSuccessScreenElementEventMap {
+        "goToStartGuestbookScreen": any;
+    }
+    interface HTMLPrintPhotoSuccessScreenElement extends Components.PrintPhotoSuccessScreen, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPrintPhotoSuccessScreenElementEventMap>(type: K, listener: (this: HTMLPrintPhotoSuccessScreenElement, ev: PrintPhotoSuccessScreenCustomEvent<HTMLPrintPhotoSuccessScreenElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPrintPhotoSuccessScreenElementEventMap>(type: K, listener: (this: HTMLPrintPhotoSuccessScreenElement, ev: PrintPhotoSuccessScreenCustomEvent<HTMLPrintPhotoSuccessScreenElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPrintPhotoSuccessScreenElement: {
+        prototype: HTMLPrintPhotoSuccessScreenElement;
+        new (): HTMLPrintPhotoSuccessScreenElement;
     };
     interface HTMLRootComponentElement extends Components.RootComponent, HTMLStencilElement {
     }
@@ -145,6 +194,8 @@ declare global {
         "global-h2": HTMLGlobalH2Element;
         "init-screen": HTMLInitScreenElement;
         "loading-guestbook-screen": HTMLLoadingGuestbookScreenElement;
+        "print-photo-fail-screen": HTMLPrintPhotoFailScreenElement;
+        "print-photo-success-screen": HTMLPrintPhotoSuccessScreenElement;
         "root-component": HTMLRootComponentElement;
         "start-guestbook-screen": HTMLStartGuestbookScreenElement;
     }
@@ -152,12 +203,14 @@ declare global {
 declare namespace LocalJSX {
     interface CaptureCountdownScreen {
         "height"?: number;
-        "onClickStartGuestbookCycleButton"?: (event: CaptureCountdownScreenCustomEvent<any>) => void;
+        "onGoToPrintPhotoFailScreen"?: (event: CaptureCountdownScreenCustomEvent<string>) => void;
+        "onGoToPrintPhotoSuccessScreen"?: (event: CaptureCountdownScreenCustomEvent<any>) => void;
+        "onGoToStartGuestbookScreen"?: (event: CaptureCountdownScreenCustomEvent<any>) => void;
         "onStartCaptureCountdown"?: (event: CaptureCountdownScreenCustomEvent<any>) => void;
         "width"?: number;
     }
     interface EditSettingsScreen {
-        "onClickStartGuestbookCycleButton"?: (event: EditSettingsScreenCustomEvent<any>) => void;
+        "onGoToStartGuestbookScreen"?: (event: EditSettingsScreenCustomEvent<any>) => void;
     }
     interface GlobalH1 {
     }
@@ -165,9 +218,16 @@ declare namespace LocalJSX {
     }
     interface InitScreen {
         "onClickInitScreenEditSettingsButton"?: (event: InitScreenCustomEvent<any>) => void;
-        "onClickStartGuestbookCycleButton"?: (event: InitScreenCustomEvent<any>) => void;
+        "onGoToStartGuestbookScreen"?: (event: InitScreenCustomEvent<any>) => void;
     }
     interface LoadingGuestbookScreen {
+    }
+    interface PrintPhotoFailScreen {
+        "error"?: string | undefined;
+        "onGoToStartGuestbookScreen"?: (event: PrintPhotoFailScreenCustomEvent<any>) => void;
+    }
+    interface PrintPhotoSuccessScreen {
+        "onGoToStartGuestbookScreen"?: (event: PrintPhotoSuccessScreenCustomEvent<any>) => void;
     }
     interface RootComponent {
     }
@@ -183,6 +243,8 @@ declare namespace LocalJSX {
         "global-h2": GlobalH2;
         "init-screen": InitScreen;
         "loading-guestbook-screen": LoadingGuestbookScreen;
+        "print-photo-fail-screen": PrintPhotoFailScreen;
+        "print-photo-success-screen": PrintPhotoSuccessScreen;
         "root-component": RootComponent;
         "start-guestbook-screen": StartGuestbookScreen;
     }
@@ -197,6 +259,8 @@ declare module "@stencil/core" {
             "global-h2": LocalJSX.GlobalH2 & JSXBase.HTMLAttributes<HTMLGlobalH2Element>;
             "init-screen": LocalJSX.InitScreen & JSXBase.HTMLAttributes<HTMLInitScreenElement>;
             "loading-guestbook-screen": LocalJSX.LoadingGuestbookScreen & JSXBase.HTMLAttributes<HTMLLoadingGuestbookScreenElement>;
+            "print-photo-fail-screen": LocalJSX.PrintPhotoFailScreen & JSXBase.HTMLAttributes<HTMLPrintPhotoFailScreenElement>;
+            "print-photo-success-screen": LocalJSX.PrintPhotoSuccessScreen & JSXBase.HTMLAttributes<HTMLPrintPhotoSuccessScreenElement>;
             "root-component": LocalJSX.RootComponent & JSXBase.HTMLAttributes<HTMLRootComponentElement>;
             "start-guestbook-screen": LocalJSX.StartGuestbookScreen & JSXBase.HTMLAttributes<HTMLStartGuestbookScreenElement>;
         }

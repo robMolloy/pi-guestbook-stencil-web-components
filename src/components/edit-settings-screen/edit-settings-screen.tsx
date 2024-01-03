@@ -32,7 +32,7 @@ type TServerLiveStatus = 'uninitialised' | 'initialising' | 'awaiting_response' 
 })
 export class EditSettingsScreen {
   @Event()
-  clickStartGuestbookCycleButton: EventEmitter;
+  goToStartGuestbookScreen: EventEmitter;
 
   @State() serverBaseUrl: string = localStorage.getItem('serverBaseUrl');
   @State() serverLiveStatus: TServerLiveStatus = 'uninitialised';
@@ -77,7 +77,7 @@ export class EditSettingsScreen {
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button class="btn btn-primary" onClick={() => this.clickStartGuestbookCycleButton.emit()}>
+            <button class="btn btn-primary" onClick={() => this.goToStartGuestbookScreen.emit()}>
               Start
             </button>
             <button class="btn btn-accent" onClick={() => this.handleSave()}>

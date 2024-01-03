@@ -26,8 +26,6 @@ const getStreamData = (p: { width: number; height: number }): Promise<MediaProvi
     navigator.mediaDevices
       .getUserMedia({ video: { width: { ideal: p.width }, height: { ideal: p.height } } })
       .then(function (initStream) {
-        // Assign the camera stream to the video element
-        //  video.srcObject = stream;
         const stream = initStream as unknown as MediaProvider;
         resolve(stream);
       })
@@ -39,7 +37,7 @@ const getStreamData = (p: { width: number; height: number }): Promise<MediaProvi
   });
 };
 
-type TScreenStatus = 'init_screen' | 'edit_settings_screen' | 'start_guestbook_screen' | 'capture_countdown_screen';
+type TScreenStatus = 'init_screen' | 'edit_settings_screen' | 'start_guestbook_screen' | 'capture_countdown_screen' | 'print_photo_success_screen' | 'print_photo_fail_screen';
 declare global {
   interface Window {
     streamData: MediaProvider | undefined;
@@ -54,14 +52,24 @@ export class RootComponent {
   @State() screenStatus: TScreenStatus = 'init_screen';
   @State() streamDims: { width: number; height: number } | undefined = undefined;
   @State() streamDataIsReady: boolean = false;
+  @State() sendPhotoErrorName: string | undefined = undefined;
 
   @Listen('clickInitScreenEditSettingsButton')
   clickSettingsButtonHandler() {
     this.screenStatus = 'edit_settings_screen';
   }
-  @Listen('clickStartGuestbookCycleButton')
-  clickStartGuestbookCycleButtonHandler() {
+  @Listen('goToStartGuestbookScreen')
+  goToStartGuestbookScreen() {
     this.screenStatus = 'start_guestbook_screen';
+  }
+  @Listen('goToPrintPhotoSuccessScreen')
+  goToPrintPhotoSuccessScreen() {
+    this.screenStatus = 'print_photo_success_screen';
+  }
+  @Listen('goToPrintPhotoFailScreen')
+  goToPrintPhotoFailScreen(e: CustomEvent<string>) {
+    this.sendPhotoErrorName = e.detail;
+    this.screenStatus = 'print_photo_fail_screen';
   }
 
   @Listen('startCaptureCountdown')
@@ -89,6 +97,8 @@ export class RootComponent {
         {this.screenStatus === 'start_guestbook_screen' && !this.streamDataIsReady && <loading-guestbook-screen />}
         {this.screenStatus === 'start_guestbook_screen' && this.streamDataIsReady && <start-guestbook-screen width={this.streamDims?.width} height={this.streamDims?.height} />}
         {this.screenStatus === 'capture_countdown_screen' && <capture-countdown-screen width={this.streamDims?.width} height={this.streamDims?.height} />}
+        {this.screenStatus === 'print_photo_success_screen' && <print-photo-success-screen />}
+        {this.screenStatus === 'print_photo_fail_screen' && <print-photo-fail-screen error={this.sendPhotoErrorName} />}
       </div>
     );
   }

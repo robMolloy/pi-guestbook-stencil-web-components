@@ -7,7 +7,7 @@ import { Component, h, Event, EventEmitter } from '@stencil/core';
 })
 export class InitScreen {
   @Event()
-  clickStartGuestbookCycleButton: EventEmitter;
+  goToStartGuestbookScreen: EventEmitter;
 
   @Event()
   clickInitScreenEditSettingsButton: EventEmitter;
@@ -19,7 +19,7 @@ export class InitScreen {
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button class="btn btn-primary" onClick={() => this.clickStartGuestbookCycleButton.emit()}>
+            <button class="btn btn-primary" onClick={() => this.goToStartGuestbookScreen.emit()}>
               Start
             </button>
             <button class="btn btn-accent" onClick={() => this.clickInitScreenEditSettingsButton.emit()}>

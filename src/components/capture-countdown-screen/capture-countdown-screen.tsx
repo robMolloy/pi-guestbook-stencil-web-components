@@ -1,40 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Prop, State } from '@stencil/core';
+import { delay, onCountdown, getImageDataUrlFromVideoElement, sendImageDataUrlToPrint } from '../../utils';
 
-const isRapid = false;
-
-const delay = async x => {
-  return new Promise(resolve => {
-    const t = isRapid ? 100 : x;
-    setTimeout(() => resolve(true), t);
-  });
-};
-
-const getImageDataUrlFromVideoElement = (p: { videoElement: HTMLVideoElement }) => {
-  const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
-  canvas.width = p.videoElement.width;
-  canvas.height = p.videoElement.height;
-
-  const ctx = canvas.getContext('2d');
-  ctx.scale(-1, 1);
-  ctx.drawImage(p.videoElement, -p.videoElement.width, 0, p.videoElement.width, p.videoElement.height);
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-  const imageDataUrl = canvas.toDataURL('image/png');
-  canvas.remove();
-  return imageDataUrl;
-};
-
-const onCountdown = async (x: number, fn: (i: number | undefined) => void) => {
-  const nums = Array(x + 1)
-    .fill(undefined)
-    .map((_, j) => x - j);
-  for (const num of nums) {
-    fn(num);
-    await delay(1000);
-  }
-  fn(undefined);
-  return;
-};
 @Component({
   tag: 'capture-countdown-screen',
   styleUrls: ['../../styles/daisyUi.css', './capture-countdown-screen.css'],
@@ -45,37 +11,31 @@ export class CaptureCountdownScreen {
   @Prop() height: number;
   @State() countdownInt: number | undefined = undefined;
   @State() videoElement: HTMLVideoElement | undefined = undefined;
-  @State() imageDataUrls: string[] | [] = [];
+  @State() imageDataUrls: [string | undefined, string | undefined, string | undefined, string | undefined] = [undefined, undefined, undefined, undefined];
   @State() selectedImageDataUrl: string | undefined = undefined;
   @State() captureSequenceStatus: 'initial' | 'countdown' | 'capturing' | 'selecting' = 'initial';
 
-  @Event()
-  clickStartGuestbookCycleButton: EventEmitter;
-
-  @Event()
-  startCaptureCountdown: EventEmitter;
+  @Event() goToStartGuestbookScreen: EventEmitter;
+  @Event() goToPrintPhotoSuccessScreen: EventEmitter;
+  @Event() goToPrintPhotoFailScreen: EventEmitter<string>;
+  @Event() startCaptureCountdown: EventEmitter;
 
   @Element() el: HTMLElement;
 
   async captureSequence(p: { videoElement: HTMLVideoElement }) {
     const videoElement = p.videoElement;
-    this.imageDataUrls[0] = getImageDataUrlFromVideoElement({ videoElement });
-    this.imageDataUrls = [...this.imageDataUrls];
-    await delay(2000);
-    this.imageDataUrls[1] = getImageDataUrlFromVideoElement({ videoElement });
-    this.imageDataUrls = [...this.imageDataUrls];
-    await delay(2000);
-    this.imageDataUrls[2] = getImageDataUrlFromVideoElement({ videoElement });
-    this.imageDataUrls = [...this.imageDataUrls];
-    await delay(2000);
-    this.imageDataUrls[3] = getImageDataUrlFromVideoElement({ videoElement });
-    this.imageDataUrls = [...this.imageDataUrls];
+
+    for (const num of [0, 1, 2, 3]) {
+      if (num !== 0) await delay(2000);
+      this.imageDataUrls[num] = getImageDataUrlFromVideoElement({ videoElement });
+      this.imageDataUrls = [...this.imageDataUrls];
+    }
+
     return;
   }
 
   componentDidLoad() {
     const videoElement = this.el.shadowRoot.querySelector('video');
-    // this.videoElement = videoElement;
     videoElement.srcObject = window.streamData;
 
     (async () => {
@@ -131,10 +91,21 @@ export class CaptureCountdownScreen {
 
         {this.captureSequenceStatus === 'selecting' && (
           <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-            <button class="btn btn-primary" disabled={this.selectedImageDataUrl === undefined}>
+            <button
+              class="btn btn-primary"
+              disabled={this.selectedImageDataUrl === undefined}
+              onClick={async () => {
+                const response = await sendImageDataUrlToPrint({ imageDataUrl: this.selectedImageDataUrl });
+
+                const alwaysTrue = true;
+                if (response?.success || alwaysTrue) return this.goToPrintPhotoSuccessScreen.emit();
+
+                this.goToPrintPhotoFailScreen.emit(response.error);
+              }}
+            >
               Print photo
             </button>
-            <button class="btn btn-accent" onClick={() => this.clickStartGuestbookCycleButton.emit()}>
+            <button class="btn btn-accent" onClick={() => this.goToStartGuestbookScreen.emit()}>
               Start again
             </button>
           </div>
