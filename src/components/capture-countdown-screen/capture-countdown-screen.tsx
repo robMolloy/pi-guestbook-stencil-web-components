@@ -46,6 +46,7 @@ export class CaptureCountdownScreen {
 
       this.captureSequenceStatus = 'capturing';
       await this.captureSequence({ videoElement });
+
       this.captureSequenceStatus = 'selecting';
     })();
   }

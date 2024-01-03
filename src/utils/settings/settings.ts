@@ -4,14 +4,16 @@ export const paperSizeTranslator = {
     width: 6,
     height: 4,
     aspectRatio: 6 / 4,
-    endpoint: 'save-pdf-print-6x4-image',
+    printImageEndpoint: 'save-pdf-print-6x4-image',
+    backupImagesEndpoint: 'backup-images',
   },
   '3.5x5': {
     label: '3.5 x 5',
     width: 3.5,
     height: 5,
     aspectRatio: 3.5 / 5,
-    endpoint: 'save-pdf-print-3.5x5-image',
+    printImageEndpoint: 'save-pdf-print-3.5x5-image',
+    backupImagesEndpoint: 'backup-images',
   },
 } as const;
 
@@ -23,7 +25,8 @@ export const getSettingsFromLocalStorage = () => {
     paperSizeHeight: localStorage.getItem('paperSizeHeight'),
     paperSizeAspectRatio: localStorage.getItem('paperSizeAspectRatio'),
     serverBaseUrl: localStorage.getItem('serverBaseUrl'),
-    serverEndpoint: localStorage.getItem('serverEndpoint'),
+    serverPrintImageEndpoint: localStorage.getItem('serverPrintImageEndpoint'),
+    serverBackupImagesEndpoint: localStorage.getItem('serverBackupImagesEndpoint'),
   };
 };
 
@@ -34,7 +37,8 @@ export const setSettingsInLocalStorage = (p: {
   paperSizeHeight: string;
   paperSizeAspectRatio: string;
   serverBaseUrl: string;
-  serverEndpoint: string;
+  serverPrintImageEndpoint: string;
+  serverBackupImagesEndpoint: string;
 }) => {
   localStorage.setItem('paperSizeKey', p.paperSizeKey);
   localStorage.setItem('paperSizeLabel', p.paperSizeLabel);
@@ -43,5 +47,6 @@ export const setSettingsInLocalStorage = (p: {
   localStorage.setItem('paperSizeAspectRatio', p.paperSizeAspectRatio);
 
   localStorage.setItem('serverBaseUrl', p.serverBaseUrl);
-  localStorage.setItem('serverEndpoint', p.serverEndpoint);
+  localStorage.setItem('serverPrintImageEndpoint', p.serverPrintImageEndpoint);
+  localStorage.setItem('serverBackupImagesEndpoint', p.serverBackupImagesEndpoint);
 };

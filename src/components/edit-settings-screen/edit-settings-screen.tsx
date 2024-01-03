@@ -36,7 +36,8 @@ export class EditSettingsScreen {
       paperSizeHeight: stats.height,
       paperSizeAspectRatio: stats.aspectRatio,
       serverBaseUrl: this.serverBaseUrl,
-      serverEndpoint: stats.endpoint,
+      serverPrintImageEndpoint: stats.printImageEndpoint,
+      serverBackupImagesEndpoint: stats.backupImagesEndpoint,
     });
 
     this.settings = getSettingsFromLocalStorage();
