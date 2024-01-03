@@ -26,3 +26,22 @@ export const getSettingsFromLocalStorage = () => {
     serverEndpoint: localStorage.getItem('serverEndpoint'),
   };
 };
+
+export const setSettingsInLocalStorage = (p: {
+  paperSizeKey: string;
+  paperSizeLabel: string;
+  paperSizeWidth: string;
+  paperSizeHeight: string;
+  paperSizeAspectRatio: string;
+  serverBaseUrl: string;
+  serverEndpoint: string;
+}) => {
+  localStorage.setItem('paperSizeKey', p.paperSizeKey);
+  localStorage.setItem('paperSizeLabel', p.paperSizeLabel);
+  localStorage.setItem('paperSizeWidth', p.paperSizeWidth);
+  localStorage.setItem('paperSizeHeight', p.paperSizeHeight);
+  localStorage.setItem('paperSizeAspectRatio', p.paperSizeAspectRatio);
+
+  localStorage.setItem('serverBaseUrl', p.serverBaseUrl);
+  localStorage.setItem('serverEndpoint', p.serverEndpoint);
+};

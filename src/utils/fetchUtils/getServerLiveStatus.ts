@@ -1,22 +1,24 @@
 export const getServerLiveStatus = async () => {
   const serverBaseUrl = localStorage.getItem('serverBaseUrl');
 
-  if (!serverBaseUrl) return 'no_base_url_provided';
+  if (!serverBaseUrl) return { success: false, status: 'no_base_url_provided' } as const;
 
   let pingServerResponse: Response | undefined = undefined;
   try {
-    pingServerResponse = await fetch(`${serverBaseUrl}/ping`);
-    if (pingServerResponse?.ok !== true) return 'server_not_found';
+    pingServerResponse = await fetch(`${serverBaseUrl}ping`);
+    if (pingServerResponse?.ok !== true) return { success: false, status: 'server_not_found' } as const;
   } catch (error) {
-    return 'server_not_found';
+    console.error(error);
+    return { success: false, status: 'server_not_found' } as const;
   }
 
   try {
     const pingServerJson = await pingServerResponse.json();
-    if (pingServerJson?.success !== true) return 'server_found_invalid_response';
+    if (pingServerJson?.success !== true) return { success: false, status: 'server_found_invalid_response' } as const;
   } catch (error) {
-    return 'server_found_invalid_response';
+    console.error(error);
+    return { success: false, status: 'server_found_invalid_response' } as const;
   }
 
-  return 'server_found';
+  return { success: true, status: 'server_found' } as const;
 };

@@ -1,44 +1,30 @@
 import { Component, h, Event, EventEmitter, State } from '@stencil/core';
 import { getServerLiveStatus } from '../../utils/fetchUtils/getServerLiveStatus';
-import { getSettingsFromLocalStorage, paperSizeTranslator } from '../../utils/settings/settings';
+import { getSettingsFromLocalStorage, paperSizeTranslator, setSettingsInLocalStorage } from '../../utils/settings/settings';
 
 type TServerLiveStatus = 'uninitialised' | 'initialising' | 'awaiting_response' | 'no_base_url_provided' | 'server_not_found' | 'server_found' | 'server_found_invalid_response';
 
-const setSettingsInLocalStorage = (p: {
-  paperSizeKey: string;
-  paperSizeLabel: string;
-  paperSizeWidth: string;
-  paperSizeHeight: string;
-  paperSizeAspectRatio: string;
-  serverBaseUrl: string;
-  serverEndpoint: string;
-}) => {
-  localStorage.setItem('paperSizeKey', p.paperSizeKey);
-  localStorage.setItem('paperSizeLabel', p.paperSizeLabel);
-  localStorage.setItem('paperSizeWidth', p.paperSizeWidth);
-  localStorage.setItem('paperSizeHeight', p.paperSizeHeight);
-  localStorage.setItem('paperSizeAspectRatio', p.paperSizeAspectRatio);
-
-  localStorage.setItem('serverBaseUrl', p.serverBaseUrl);
-  localStorage.setItem('serverEndpoint', p.serverEndpoint);
-};
 @Component({
   tag: 'edit-settings-screen',
   styleUrl: '../../styles/daisyUi.css',
   shadow: true,
 })
 export class EditSettingsScreen {
-  @Event()
-  goToStartGuestbookScreen: EventEmitter;
+  @Event() goToStartGuestbookScreen: EventEmitter;
 
   @State() serverLiveStatus: TServerLiveStatus = 'uninitialised';
+  @State() serverLiveStatusColorIndicator: 'orange' | 'red' | 'green' = 'orange';
   @State() serverBaseUrl: string = localStorage.getItem('serverBaseUrl');
   @State() paperSizeKey: string = localStorage.getItem('paperSizeKey');
   @State() settings: { [k: string]: string | number | null } = getSettingsFromLocalStorage();
 
   async handleServerLiveStatus() {
     this.serverLiveStatus = 'initialising';
-    this.serverLiveStatus = await getServerLiveStatus();
+    this.serverLiveStatusColorIndicator = 'orange';
+
+    const serverLiveStatusResponse = await getServerLiveStatus();
+    this.serverLiveStatus = serverLiveStatusResponse.status;
+    this.serverLiveStatusColorIndicator = serverLiveStatusResponse.success ? 'green' : 'red';
   }
 
   async handleSave() {
@@ -63,7 +49,12 @@ export class EditSettingsScreen {
   render() {
     return (
       <div>
-        <div>Server live status: {this.serverLiveStatus}</div>
+        <div>
+          Server live status:
+          <span onClick={() => this.handleServerLiveStatus()} style={{ backgroundColor: this.serverLiveStatusColorIndicator }}>
+            {this.serverLiveStatus}
+          </span>
+        </div>
 
         <br />
 

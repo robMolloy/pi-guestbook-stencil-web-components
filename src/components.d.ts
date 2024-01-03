@@ -31,6 +31,8 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface TestCom {
+    }
 }
 export interface CaptureCountdownScreenCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -187,6 +189,12 @@ declare global {
         prototype: HTMLStartGuestbookScreenElement;
         new (): HTMLStartGuestbookScreenElement;
     };
+    interface HTMLTestComElement extends Components.TestCom, HTMLStencilElement {
+    }
+    var HTMLTestComElement: {
+        prototype: HTMLTestComElement;
+        new (): HTMLTestComElement;
+    };
     interface HTMLElementTagNameMap {
         "capture-countdown-screen": HTMLCaptureCountdownScreenElement;
         "edit-settings-screen": HTMLEditSettingsScreenElement;
@@ -198,6 +206,7 @@ declare global {
         "print-photo-success-screen": HTMLPrintPhotoSuccessScreenElement;
         "root-component": HTMLRootComponentElement;
         "start-guestbook-screen": HTMLStartGuestbookScreenElement;
+        "test-com": HTMLTestComElement;
     }
 }
 declare namespace LocalJSX {
@@ -236,6 +245,8 @@ declare namespace LocalJSX {
         "onStartCaptureCountdown"?: (event: StartGuestbookScreenCustomEvent<any>) => void;
         "width"?: number;
     }
+    interface TestCom {
+    }
     interface IntrinsicElements {
         "capture-countdown-screen": CaptureCountdownScreen;
         "edit-settings-screen": EditSettingsScreen;
@@ -247,6 +258,7 @@ declare namespace LocalJSX {
         "print-photo-success-screen": PrintPhotoSuccessScreen;
         "root-component": RootComponent;
         "start-guestbook-screen": StartGuestbookScreen;
+        "test-com": TestCom;
     }
 }
 export { LocalJSX as JSX };
@@ -263,6 +275,7 @@ declare module "@stencil/core" {
             "print-photo-success-screen": LocalJSX.PrintPhotoSuccessScreen & JSXBase.HTMLAttributes<HTMLPrintPhotoSuccessScreenElement>;
             "root-component": LocalJSX.RootComponent & JSXBase.HTMLAttributes<HTMLRootComponentElement>;
             "start-guestbook-screen": LocalJSX.StartGuestbookScreen & JSXBase.HTMLAttributes<HTMLStartGuestbookScreenElement>;
+            "test-com": LocalJSX.TestCom & JSXBase.HTMLAttributes<HTMLTestComElement>;
         }
     }
 }
