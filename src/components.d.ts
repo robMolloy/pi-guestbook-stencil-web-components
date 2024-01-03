@@ -6,6 +6,10 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface CaptureCountdownScreen {
+        "height": number;
+        "width": number;
+    }
     interface EditSettingsScreen {
     }
     interface GlobalH1 {
@@ -21,6 +25,10 @@ export namespace Components {
         "width": number;
     }
 }
+export interface CaptureCountdownScreenCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCaptureCountdownScreenElement;
+}
 export interface EditSettingsScreenCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEditSettingsScreenElement;
@@ -29,7 +37,28 @@ export interface InitScreenCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLInitScreenElement;
 }
+export interface StartGuestbookScreenCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLStartGuestbookScreenElement;
+}
 declare global {
+    interface HTMLCaptureCountdownScreenElementEventMap {
+        "startCaptureCountdown": any;
+    }
+    interface HTMLCaptureCountdownScreenElement extends Components.CaptureCountdownScreen, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCaptureCountdownScreenElementEventMap>(type: K, listener: (this: HTMLCaptureCountdownScreenElement, ev: CaptureCountdownScreenCustomEvent<HTMLCaptureCountdownScreenElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCaptureCountdownScreenElementEventMap>(type: K, listener: (this: HTMLCaptureCountdownScreenElement, ev: CaptureCountdownScreenCustomEvent<HTMLCaptureCountdownScreenElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCaptureCountdownScreenElement: {
+        prototype: HTMLCaptureCountdownScreenElement;
+        new (): HTMLCaptureCountdownScreenElement;
+    };
     interface HTMLEditSettingsScreenElementEventMap {
         "clickStartGuestbookCycleButton": any;
     }
@@ -83,13 +112,25 @@ declare global {
         prototype: HTMLRootComponentElement;
         new (): HTMLRootComponentElement;
     };
+    interface HTMLStartGuestbookScreenElementEventMap {
+        "startCaptureCountdown": any;
+    }
     interface HTMLStartGuestbookScreenElement extends Components.StartGuestbookScreen, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLStartGuestbookScreenElementEventMap>(type: K, listener: (this: HTMLStartGuestbookScreenElement, ev: StartGuestbookScreenCustomEvent<HTMLStartGuestbookScreenElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLStartGuestbookScreenElementEventMap>(type: K, listener: (this: HTMLStartGuestbookScreenElement, ev: StartGuestbookScreenCustomEvent<HTMLStartGuestbookScreenElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLStartGuestbookScreenElement: {
         prototype: HTMLStartGuestbookScreenElement;
         new (): HTMLStartGuestbookScreenElement;
     };
     interface HTMLElementTagNameMap {
+        "capture-countdown-screen": HTMLCaptureCountdownScreenElement;
         "edit-settings-screen": HTMLEditSettingsScreenElement;
         "global-h1": HTMLGlobalH1Element;
         "init-screen": HTMLInitScreenElement;
@@ -99,6 +140,11 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface CaptureCountdownScreen {
+        "height"?: number;
+        "onStartCaptureCountdown"?: (event: CaptureCountdownScreenCustomEvent<any>) => void;
+        "width"?: number;
+    }
     interface EditSettingsScreen {
         "onClickStartGuestbookCycleButton"?: (event: EditSettingsScreenCustomEvent<any>) => void;
     }
@@ -114,9 +160,11 @@ declare namespace LocalJSX {
     }
     interface StartGuestbookScreen {
         "height"?: number;
+        "onStartCaptureCountdown"?: (event: StartGuestbookScreenCustomEvent<any>) => void;
         "width"?: number;
     }
     interface IntrinsicElements {
+        "capture-countdown-screen": CaptureCountdownScreen;
         "edit-settings-screen": EditSettingsScreen;
         "global-h1": GlobalH1;
         "init-screen": InitScreen;
@@ -129,6 +177,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "capture-countdown-screen": LocalJSX.CaptureCountdownScreen & JSXBase.HTMLAttributes<HTMLCaptureCountdownScreenElement>;
             "edit-settings-screen": LocalJSX.EditSettingsScreen & JSXBase.HTMLAttributes<HTMLEditSettingsScreenElement>;
             "global-h1": LocalJSX.GlobalH1 & JSXBase.HTMLAttributes<HTMLGlobalH1Element>;
             "init-screen": LocalJSX.InitScreen & JSXBase.HTMLAttributes<HTMLInitScreenElement>;

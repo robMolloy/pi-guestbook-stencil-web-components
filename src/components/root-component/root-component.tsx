@@ -39,7 +39,7 @@ const getStreamData = (p: { width: number; height: number }): Promise<MediaProvi
   });
 };
 
-type TScreenStatus = 'init_screen' | 'edit_settings_screen' | 'start_guestbook_screen';
+type TScreenStatus = 'init_screen' | 'edit_settings_screen' | 'start_guestbook_screen' | 'capture_countdown_screen';
 declare global {
   interface Window {
     streamData: MediaProvider | undefined;
@@ -64,6 +64,11 @@ export class RootComponent {
     this.screenStatus = 'start_guestbook_screen';
   }
 
+  @Listen('startCaptureCountdown')
+  startCaptureCountdown() {
+    this.screenStatus = 'capture_countdown_screen';
+  }
+
   @Element() el: HTMLElement;
 
   constructor() {
@@ -78,11 +83,12 @@ export class RootComponent {
   render() {
     return (
       <div>
-        this.screenStatus: {this.screenStatus}
+        {/* this.screenStatus: {this.screenStatus} */}
         {this.screenStatus === 'init_screen' && <init-screen />}
         {this.screenStatus === 'edit_settings_screen' && <edit-settings-screen />}
         {this.screenStatus === 'start_guestbook_screen' && !this.streamDataIsReady && <loading-guestbook-screen />}
         {this.screenStatus === 'start_guestbook_screen' && this.streamDataIsReady && <start-guestbook-screen width={this.streamDims?.width} height={this.streamDims?.height} />}
+        {this.screenStatus === 'capture_countdown_screen' && <capture-countdown-screen width={this.streamDims?.width} height={this.streamDims?.height} />}
       </div>
     );
   }
