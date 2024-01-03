@@ -1,30 +1,27 @@
 import { Component, h, Event, EventEmitter, State } from '@stencil/core';
-
-const getServerLiveStatus = async () => {
-  const serverBaseUrl = localStorage.getItem('serverBaseUrl');
-
-  if (!serverBaseUrl) return 'no_base_url_provided';
-
-  let pingServerResponse: Response | undefined = undefined;
-  try {
-    pingServerResponse = await fetch(`${serverBaseUrl}/ping`);
-    if (pingServerResponse?.ok !== true) return 'server_not_found';
-  } catch (error) {
-    return 'server_not_found';
-  }
-
-  try {
-    const pingServerJson = await pingServerResponse.json();
-    if (pingServerJson?.success !== true) return 'server_found_invalid_response';
-  } catch (error) {
-    return 'server_found_invalid_response';
-  }
-
-  return 'server_found';
-};
+import { getServerLiveStatus } from '../../utils/fetchUtils/getServerLiveStatus';
+import { getSettingsFromLocalStorage, paperSizeTranslator } from '../../utils/settings/settings';
 
 type TServerLiveStatus = 'uninitialised' | 'initialising' | 'awaiting_response' | 'no_base_url_provided' | 'server_not_found' | 'server_found' | 'server_found_invalid_response';
 
+const setSettingsInLocalStorage = (p: {
+  paperSizeKey: string;
+  paperSizeLabel: string;
+  paperSizeWidth: string;
+  paperSizeHeight: string;
+  paperSizeAspectRatio: string;
+  serverBaseUrl: string;
+  serverEndpoint: string;
+}) => {
+  localStorage.setItem('paperSizeKey', p.paperSizeKey);
+  localStorage.setItem('paperSizeLabel', p.paperSizeLabel);
+  localStorage.setItem('paperSizeWidth', p.paperSizeWidth);
+  localStorage.setItem('paperSizeHeight', p.paperSizeHeight);
+  localStorage.setItem('paperSizeAspectRatio', p.paperSizeAspectRatio);
+
+  localStorage.setItem('serverBaseUrl', p.serverBaseUrl);
+  localStorage.setItem('serverEndpoint', p.serverEndpoint);
+};
 @Component({
   tag: 'edit-settings-screen',
   styleUrl: '../../styles/daisyUi.css',
@@ -34,8 +31,10 @@ export class EditSettingsScreen {
   @Event()
   goToStartGuestbookScreen: EventEmitter;
 
-  @State() serverBaseUrl: string = localStorage.getItem('serverBaseUrl');
   @State() serverLiveStatus: TServerLiveStatus = 'uninitialised';
+  @State() serverBaseUrl: string = localStorage.getItem('serverBaseUrl');
+  @State() paperSizeKey: string = localStorage.getItem('paperSizeKey');
+  @State() settings: { [k: string]: string | number | null } = getSettingsFromLocalStorage();
 
   async handleServerLiveStatus() {
     this.serverLiveStatus = 'initialising';
@@ -43,7 +42,18 @@ export class EditSettingsScreen {
   }
 
   async handleSave() {
-    localStorage.setItem('serverBaseUrl', this.serverBaseUrl);
+    const stats = paperSizeTranslator[this.paperSizeKey];
+    setSettingsInLocalStorage({
+      paperSizeKey: this.paperSizeKey,
+      paperSizeLabel: stats.label,
+      paperSizeWidth: stats.width,
+      paperSizeHeight: stats.height,
+      paperSizeAspectRatio: stats.aspectRatio,
+      serverBaseUrl: this.serverBaseUrl,
+      serverEndpoint: stats.endpoint,
+    });
+
+    this.settings = getSettingsFromLocalStorage();
   }
 
   constructor() {
@@ -72,6 +82,22 @@ export class EditSettingsScreen {
           value={this.serverBaseUrl}
         />
 
+        <br />
+        <br />
+
+        <span>Select paper size:</span>
+        {Object.entries(paperSizeTranslator).map(([k, v]) => {
+          return (
+            <div class="form-control">
+              <label style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                <input type="radio" name="radio-10" class="radio checked:bg-red-500" onClick={() => (this.paperSizeKey = k)} checked={this.paperSizeKey === k} />
+                <span class="label-text">{v.label}</span>
+              </label>
+            </div>
+          );
+        })}
+
+        <pre>{JSON.stringify(this.settings, undefined, 2)}</pre>
         <br />
         <br />
 

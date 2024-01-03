@@ -2,7 +2,7 @@ export const sendImageDataUrlToPrint = async (p: { imageDataUrl: string }) => {
   try {
     const controller = new AbortController();
     setTimeout(() => controller.abort(), 3000);
-    const resp = await fetch(`${localStorage.getItem('serverBaseUrl')}${localStorage.getItem('serverBaseUrl')}`, {
+    const resp = await fetch(`${localStorage.getItem('serverBaseUrl')}${localStorage.getItem('serverEndpoint')}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ image: p.imageDataUrl }),

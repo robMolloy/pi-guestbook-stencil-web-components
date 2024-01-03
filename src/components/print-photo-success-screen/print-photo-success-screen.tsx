@@ -7,12 +7,12 @@ import { onCountdown } from '../../utils';
   shadow: true,
 })
 export class RootComponent {
-  @State() countdownInt: number | undefined = 1;
+  @State() countdownInt: number | undefined = 60;
   @Event() goToStartGuestbookScreen: EventEmitter;
 
   componentDidLoad() {
     (async () => {
-      await onCountdown(this.countdownInt, (i: number) => (this.countdownInt = i));
+      await onCountdown(this.countdownInt, 1, (i: number) => (this.countdownInt = i));
       this.countdownInt = undefined;
     })();
   }
@@ -37,7 +37,7 @@ export class RootComponent {
             <div>
               <br />
               <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                <button class="btn btn-accent" onClick={() => this.goToStartGuestbookScreen.emit()}>
+                <button class="btn btn-primary" onClick={() => this.goToStartGuestbookScreen.emit()}>
                   Start again
                 </button>
               </div>

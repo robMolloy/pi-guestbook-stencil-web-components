@@ -40,7 +40,8 @@ export class CaptureCountdownScreen {
 
     (async () => {
       this.captureSequenceStatus = 'countdown';
-      await onCountdown(5, (x: number) => (this.countdownInt = x));
+      await onCountdown(5, 0, (x: number) => (this.countdownInt = x));
+
       this.captureSequenceStatus = 'capturing';
       await this.captureSequence({ videoElement });
       this.captureSequenceStatus = 'selecting';
@@ -80,7 +81,7 @@ export class CaptureCountdownScreen {
             )}
             {this.captureSequenceStatus !== 'selecting' && (
               <div style={{ width: '100%', height: '100%' }}>
-                {this.countdownInt !== undefined && <div class="countdownIntCircle">{this.countdownInt}</div>}
+                {this.captureSequenceStatus === 'countdown' && <div class="countdownIntCircle">{this.countdownInt}</div>}
                 <video style={{ transform: 'scaleX(-1)', width: '100%', height: '100%' }} width={this.width} height={this.height} autoplay></video>
               </div>
             )}
@@ -97,8 +98,7 @@ export class CaptureCountdownScreen {
               onClick={async () => {
                 const response = await sendImageDataUrlToPrint({ imageDataUrl: this.selectedImageDataUrl });
 
-                const alwaysTrue = true;
-                if (response?.success || alwaysTrue) return this.goToPrintPhotoSuccessScreen.emit();
+                if (response?.success === true) return this.goToPrintPhotoSuccessScreen.emit();
 
                 this.goToPrintPhotoFailScreen.emit(response.error);
               }}
@@ -122,7 +122,6 @@ export class CaptureCountdownScreen {
                 onClick={() => {
                   if (this.captureSequenceStatus !== 'selecting') return;
                   this.selectedImageDataUrl = this.imageDataUrls?.[x];
-                  console.log({ a: this.selectedImageDataUrl, len: this.selectedImageDataUrl.length });
                 }}
               >
                 <span class="captured-image-number"> {x + 1} </span>
@@ -130,6 +129,8 @@ export class CaptureCountdownScreen {
             );
           })}
         </div>
+
+        <br />
       </div>
     );
   }
