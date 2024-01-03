@@ -74,10 +74,6 @@ export class CaptureCountdownScreen {
       const canvas = this.el.shadowRoot.querySelector('canvas') as unknown as HTMLCanvasElement;
       const ctx = canvas.getContext('2d');
       ctx.scale(-1, 1);
-
-      /**
-       */
-
       // Draw the current frame of the video on the canvas
       ctx.drawImage(video, -this.width, 0, this.width, this.height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
