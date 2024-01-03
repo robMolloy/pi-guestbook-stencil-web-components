@@ -14,6 +14,7 @@ export class CaptureCountdownScreen {
   @State() imageDataUrls: [string | undefined, string | undefined, string | undefined, string | undefined] = [undefined, undefined, undefined, undefined];
   @State() selectedImageDataUrl: string | undefined = undefined;
   @State() captureSequenceStatus: 'initial' | 'countdown' | 'capturing' | 'selecting' = 'initial';
+  @State() isFlash: boolean = false;
 
   @Event() goToStartGuestbookScreen: EventEmitter;
   @Event() goToPrintPhotoSuccessScreen: EventEmitter;
@@ -27,6 +28,7 @@ export class CaptureCountdownScreen {
 
     for (const num of [0, 1, 2, 3]) {
       if (num !== 0) await delay(2000);
+      this.isFlash = true;
       this.imageDataUrls[num] = getImageDataUrlFromVideoElement({ videoElement });
       this.imageDataUrls = [...this.imageDataUrls];
     }
@@ -81,6 +83,7 @@ export class CaptureCountdownScreen {
             )}
             {this.captureSequenceStatus !== 'selecting' && (
               <div style={{ width: '100%', height: '100%' }}>
+                <div onAnimationEnd={() => (this.isFlash = false)} id="flash" class={this.isFlash ? 'flash' : ''}></div>
                 {this.captureSequenceStatus === 'countdown' && <div class="countdownIntCircle">{this.countdownInt}</div>}
                 <video style={{ transform: 'scaleX(-1)', width: '100%', height: '100%' }} width={this.width} height={this.height} autoplay></video>
               </div>
