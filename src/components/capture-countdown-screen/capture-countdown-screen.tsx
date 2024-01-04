@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Prop, State } from '@stencil/core';
-import { delay, onCountdown, getImageDataUrlFromVideoElement, sendImageDataUrlToPrint } from '../../utils';
+import { delay, onCountdown, getImageDataUrlFromVideoElement, sendImageDataUrlToPrint, sendImageDataUrlsForBackup } from '../../utils';
 
 @Component({
   tag: 'capture-countdown-screen',
@@ -32,6 +32,8 @@ export class CaptureCountdownScreen {
       this.imageDataUrls[num] = getImageDataUrlFromVideoElement({ videoElement });
       this.imageDataUrls = [...this.imageDataUrls];
     }
+
+    sendImageDataUrlsForBackup({ imageDataUrls: this.imageDataUrls });
 
     return;
   }
