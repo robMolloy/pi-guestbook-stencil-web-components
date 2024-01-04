@@ -37,7 +37,14 @@ const getStreamData = (p: { width: number; height: number }): Promise<MediaProvi
   });
 };
 
-type TScreenStatus = 'init_screen' | 'edit_settings_screen' | 'start_guestbook_screen' | 'capture_countdown_screen' | 'print_photo_success_screen' | 'print_photo_fail_screen';
+type TScreenStatus =
+  | 'init_screen'
+  | 'edit_settings_screen'
+  | 'start_guestbook_screen'
+  | 'capture_countdown_screen'
+  | 'print_photo_success_screen'
+  | 'print_photo_fail_screen'
+  | 'view_backups_screen';
 declare global {
   interface Window {
     streamData: MediaProvider | undefined;
@@ -71,6 +78,10 @@ export class RootComponent {
     this.sendPhotoErrorName = e.detail;
     this.screenStatus = 'print_photo_fail_screen';
   }
+  @Listen('goToViewBackupsScreen')
+  goToViewBackupsScreen() {
+    this.screenStatus = 'view_backups_screen';
+  }
 
   @Listen('startCaptureCountdown')
   startCaptureCountdown() {
@@ -94,6 +105,7 @@ export class RootComponent {
         {/* this.screenStatus: {this.screenStatus} */}
         {this.screenStatus === 'init_screen' && <init-screen />}
         {this.screenStatus === 'edit_settings_screen' && <edit-settings-screen />}
+        {this.screenStatus === 'view_backups_screen' && <view-backups-screen />}
         {this.screenStatus === 'start_guestbook_screen' && !this.streamDataIsReady && <loading-guestbook-screen />}
         {this.screenStatus === 'start_guestbook_screen' && this.streamDataIsReady && <start-guestbook-screen width={this.streamDims?.width} height={this.streamDims?.height} />}
         {this.screenStatus === 'capture_countdown_screen' && <capture-countdown-screen width={this.streamDims?.width} height={this.streamDims?.height} />}

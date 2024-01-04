@@ -10,6 +10,9 @@ export class InitScreen {
   goToStartGuestbookScreen: EventEmitter;
 
   @Event()
+  goToViewBackupsScreen: EventEmitter;
+
+  @Event()
   clickInitScreenEditSettingsButton: EventEmitter;
 
   render() {
@@ -24,6 +27,9 @@ export class InitScreen {
             </button>
             <button class="btn btn-accent" onClick={() => this.clickInitScreenEditSettingsButton.emit()}>
               Edit Settings
+            </button>
+            <button class="btn btn-accent" onClick={() => this.goToViewBackupsScreen.emit()}>
+              View backups
             </button>
           </div>
         </div>

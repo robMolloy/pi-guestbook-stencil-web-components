@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export const sendImageDataUrlToPrint = async (p: { imageDataUrl: string }) => {
   try {
     const controller = new AbortController();
@@ -34,9 +36,43 @@ export const sendImageDataUrlsForBackup = async (p: { imageDataUrls: string[] })
   }
 };
 
-export const retrieveBackupImageDataUrls = async () => {
-  console.log('images');
+const delay = async (x: number) => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(true), x);
+  });
 };
-export const retrieveBackupImageListUrls = async () => {
-  console.log('list');
+
+export const retrieveBackupImageDataUrls = async (k: string) => {
+  try {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 3000);
+
+    const response = await fetch(`${localStorage.getItem('serverBaseUrl')}get-backup-images`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ backupImageDirectory: k }),
+      signal: controller.signal,
+    });
+    const json = await response.json();
+    return z.array(z.string()).safeParse(json);
+  } catch (e) {
+    return { success: false } as const;
+  }
+};
+
+export const retrieveBackupImageList = async () => {
+  try {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 3000);
+
+    const response = await fetch(`${localStorage.getItem('serverBaseUrl')}get-backup-images-list`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+    });
+    const json = await response.json();
+    return z.array(z.string()).safeParse(json);
+  } catch (e) {
+    return { success: false } as const;
+  }
 };

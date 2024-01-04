@@ -31,6 +31,8 @@ export namespace Components {
         "height": number;
         "width": number;
     }
+    interface ViewBackupsScreen {
+    }
 }
 export interface CaptureCountdownScreenCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -108,6 +110,7 @@ declare global {
     };
     interface HTMLInitScreenElementEventMap {
         "goToStartGuestbookScreen": any;
+        "goToViewBackupsScreen": any;
         "clickInitScreenEditSettingsButton": any;
     }
     interface HTMLInitScreenElement extends Components.InitScreen, HTMLStencilElement {
@@ -187,6 +190,12 @@ declare global {
         prototype: HTMLStartGuestbookScreenElement;
         new (): HTMLStartGuestbookScreenElement;
     };
+    interface HTMLViewBackupsScreenElement extends Components.ViewBackupsScreen, HTMLStencilElement {
+    }
+    var HTMLViewBackupsScreenElement: {
+        prototype: HTMLViewBackupsScreenElement;
+        new (): HTMLViewBackupsScreenElement;
+    };
     interface HTMLElementTagNameMap {
         "capture-countdown-screen": HTMLCaptureCountdownScreenElement;
         "edit-settings-screen": HTMLEditSettingsScreenElement;
@@ -198,6 +207,7 @@ declare global {
         "print-photo-success-screen": HTMLPrintPhotoSuccessScreenElement;
         "root-component": HTMLRootComponentElement;
         "start-guestbook-screen": HTMLStartGuestbookScreenElement;
+        "view-backups-screen": HTMLViewBackupsScreenElement;
     }
 }
 declare namespace LocalJSX {
@@ -219,6 +229,7 @@ declare namespace LocalJSX {
     interface InitScreen {
         "onClickInitScreenEditSettingsButton"?: (event: InitScreenCustomEvent<any>) => void;
         "onGoToStartGuestbookScreen"?: (event: InitScreenCustomEvent<any>) => void;
+        "onGoToViewBackupsScreen"?: (event: InitScreenCustomEvent<any>) => void;
     }
     interface LoadingGuestbookScreen {
     }
@@ -236,6 +247,8 @@ declare namespace LocalJSX {
         "onStartCaptureCountdown"?: (event: StartGuestbookScreenCustomEvent<any>) => void;
         "width"?: number;
     }
+    interface ViewBackupsScreen {
+    }
     interface IntrinsicElements {
         "capture-countdown-screen": CaptureCountdownScreen;
         "edit-settings-screen": EditSettingsScreen;
@@ -247,6 +260,7 @@ declare namespace LocalJSX {
         "print-photo-success-screen": PrintPhotoSuccessScreen;
         "root-component": RootComponent;
         "start-guestbook-screen": StartGuestbookScreen;
+        "view-backups-screen": ViewBackupsScreen;
     }
 }
 export { LocalJSX as JSX };
@@ -263,6 +277,7 @@ declare module "@stencil/core" {
             "print-photo-success-screen": LocalJSX.PrintPhotoSuccessScreen & JSXBase.HTMLAttributes<HTMLPrintPhotoSuccessScreenElement>;
             "root-component": LocalJSX.RootComponent & JSXBase.HTMLAttributes<HTMLRootComponentElement>;
             "start-guestbook-screen": LocalJSX.StartGuestbookScreen & JSXBase.HTMLAttributes<HTMLStartGuestbookScreenElement>;
+            "view-backups-screen": LocalJSX.ViewBackupsScreen & JSXBase.HTMLAttributes<HTMLViewBackupsScreenElement>;
         }
     }
 }
